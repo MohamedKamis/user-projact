@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user-login</title>
+    <style>
+      p{
+        font-size: 30px;
+        color: brown;
+        font-weight: bold;
+      }
+      td{
+        border: 3px black solid;
+        font-size: 30px;
+        text-align: center;
+
+      }
+    </style>
+</head>
+<body>
+    <form action="" method="get">
+      <label for="firstname">firstname</label>
+        <input type="text" id="firstname"><br><br>
+      <label for="lastname">lastname</label>
+        <input type="text" id="lastname"><br><br>
+      <label for="username">username</label>
+        <input type="text" id="username"><br><br>
+      <label for="password">password</label>
+        <input type="text" id="password"><br><br>
+      <label for="email">email</label>
+        <input type="text" id="email"><br><br>
+      <label for="type">type</label>
+        <input type="text" id="type"><br><br>
+        <input type="button" onclick="send();" value="submit">
+        <p id="p"></p>
+        <textarea name="" id="t" cols="30" rows="10"></textarea>
+        <table id="app"><tr><td>id</td> <td>firstname</td> <td>lastname</td> <td>username</td><td>email</td></tr></table>
+    </form>
+    <script> 
+    const api_url = 'http://localhost:8060/user';
+    const index = async () => {
+  try {
+    const response = await fetch(api_url);
+    const data= await response.json();
+    return data;
+  } catch (error) {
+    return false;
+  }
+};
+const x = async () => {
+    const User = await index();
+    const row=User;
+    for (let item of User) {
+      const{id,firstname,lastname,username,email}=item;
+      window.app.innerHTML+=`<tr><td>${id}</td> <td>${firstname}</td> <td>${lastname}</td> <td>${username}</td><td>${email}</td></tr>`;
+    }
+    return row;
+};
+
+
+const get=()=>{
+ let get_firstname= window.firstname.value
+ let get_lastname= window.lastname.value
+ let get_username= window.username.value
+ let get_password= window.password.value
+ let get_email= window.email.value
+ let get_type= window.type.value
+  const data1={
+  firstname:get_firstname,
+   lastname:get_lastname,
+    username:get_username,
+     password:get_password,
+      email:get_email,
+       type:get_type,
+}
+return data1;
+}
+// firstname, lastname, username, password, email, type 
+
+const send=()=>{
+  let data1=get();
+    fetch(api_url,{
+      method:"post",
+      body:JSON.stringify(data1),
+      headers:{
+        'Content-Type':'application/json'
+      }
+    }).then(function(response){
+      return response.text();
+    }).then(function(text){
+      console.log(text);
+      x();
+    }).catch(function(error){
+      console.error(error);
+    })
+}
+    </script>
+</body>
+</html>
