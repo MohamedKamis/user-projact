@@ -13,7 +13,9 @@ First open the project in an editor and then install dependencies using
 You need to add some data in file (.env)
 
 PORT=8080
+-
 NODE_ENV=dev
+-
 Postgres_host=
 Postgres_user=
 Postgres_password=
